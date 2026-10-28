@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -A Research_Project-MRC164847 # research project to submit under.
+#SBATCH -A Research_Project-T112069 # research project to submit under.
 #SBATCH --export=ALL # export all environment variables to the batch job.
 #SBATCH -D . # set working directory to .
 #SBATCH -p mrcq
@@ -7,19 +7,19 @@
 #SBATCH --nodes=1 # specify number of nodes.
 #SBATCH --ntasks-per-node=16 # specify number of processors.
 #SBATCH --mail-type=END # send email at job completion
-#SBATCH --mail-user=m.kouhsar@exeter.ac.uk # email address
+#SBATCH --mail-user=j.d.harvey@exeter.ac.uk # email address
 #SBATCH --job-name=mirdeep2
 #SBATCH --output=mirdeep2.%A_%a.out
 #SBATCH --array=0-15
 #########################################################################################
 #########################################################################################
 
-result_dir="./mirdeep2/BDR1"
-fastq_dir="./Project.10230.BDR1"
-genome_file="./Ref/hg38.fa"
-bowtie_index_pref="./Ref/hg38"
-hairpin_file="./Ref/hairpin1.fa.fix"
-mature_file="./Ref/mature1.fa.fix"
+result_dir="/lustre/projects/Research_Project-T112069/FAD/3_RNA/3_1_RNA/3_2_1_mirdeep2/results"
+fastq_dir="/lustre/projects/Research_Project-T112069/FAD/3_RNA/X0113/14.1_fastp_adapter_trimmed"
+genome_file="/lustre/projects/Research_Project-T112069/Reference/Genomes/GRCh38.clean.fa"
+bowtie_index_pref="/lustre/projects/Research_Project-T112069/FAD/3_RNA/3_1_RNA/3_2_1_mirdeep2/bowtie-index/hg38_index"
+hairpin_file="/lustre/projects/Research_Project-T112069/Reference/miRNA/hairpin.fa.fix"
+mature_file="/lustre/projects/Research_Project-T112069/Reference/miRNA/mature.fa.fix"
 
 #######################################################################################
 #######################################################################################
@@ -56,6 +56,9 @@ echo Number of samples in current array: ${#fastq_files1[@]}
 
 echo "##########################################################################"
 echo ""
+
+conda activate mirdeep2
+
 result_dir=${result_dir}/mirdeep2.results.${SLURM_ARRAY_TASK_ID}
 if [ ${#fastq_files1[@]} != 0 ]
 then

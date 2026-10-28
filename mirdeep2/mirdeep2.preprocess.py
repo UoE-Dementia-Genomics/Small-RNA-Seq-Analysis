@@ -8,9 +8,9 @@ Purifying hairpin and mature miRNAs fasta files by removing unwanten characters.
 """
 
 ######### input parameters ###################
-CurWD='.'
+CurWD='/lustre/projects/Research_Project-T112069/Reference/miRNA/'
 species='hsa'
-input_file='./mirbase_ref/mature1.fa'
+input_file='/lustre/projects/Research_Project-T112069/Reference/miRNA/mature.fa'
 
 #############################################
 
@@ -31,9 +31,15 @@ def check_char(input_str):
             input_str=str(input_str).replace(c, '')
     return input_str
     
+def clean_header(header_line):
+    # ">cel-let-7 MI0000001 Caenorhabditis elegans let-7 stem-loop" -> ">cel-let-7"
+    return header_line.split()[0] + '\n'
+
 for line in f_in:
     if(line[0]!='>'):
         line=check_char(line)
+    else:
+        line=clean_header(line)
     f_out.write(line)
 
 
